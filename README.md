@@ -42,9 +42,9 @@ Now, start an interactive shell inside the image by running the following in the
 
 If this is the first run, and you haven't built the image yourself, this might take a little while to start while Docker downloads the image from Docker Hub.
 
-Now, you can edit the source code on the host machine.
+Now, you can edit the source code on the host machine, and compile/test/debug inside the Docker image.
 
-Note that on systems that are using Boot2Docker (Windows/OS X), you will not be able to access the shared folder 
+If `bmake install` fails with `mkdir: cannot create directory '/root/os161/root': No such file or directory`, just create the directory: `mkdir --parents /root/os161`.
 
 Building
 --------
