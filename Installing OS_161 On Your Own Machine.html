@@ -1,0 +1,481 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0070)https://www.student.cs.uwaterloo.ca/~cs350/common/Install161NonCS.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>Installing OS/161 On Your Own Machine</title>
+<style type="text/css">:root #header + #content > #left > #rlblock_left,
+:root #content > #right > .dose > .dosesingle,
+:root #content > #center > .dose > .dosesingle
+{display:none !important;}</style></head>
+<body>
+<h1>Installing OS/161 On Your Own Machine</h1>
+
+<p>
+The following instructions describe how to install OS/161
+on machines that are outside of the
+student.cs computing environment.
+These instructions assume that the target machine is running
+Linux.
+</p><p>
+If you are trying to
+install OS/161 in the student.cs computing environment,
+then these are not the instructions for you.
+There is <a href="https://www.student.cs.uwaterloo.ca/~cs350/common/Install161.html">another set of instructions</a>,
+much simpler than this set, for working in the student.cs environment.
+</p><p>
+<b>
+For marking purposes, your code will be compiled and executed in the
+CSCF undergraduate (student.cs) environment. You are responsible for
+ensuring that your code runs there.
+</b></p><p>
+<b>
+Getting OS/161 and related tools running on your Linux machine should not
+be too difficult.
+However, this is not a guarantee - there are too many
+variables beyond our control.  Ensuring that OS/161 runs in the
+student.cs environment is our responsibility. Getting it running on your
+machine is yours.
+</b>
+</p><p>
+Setting up OS/161 on your own machine is more involved than
+setting it up in your account in the student.cs environment.
+In the student.cs enviroment, both the sys/161 simulator
+(on which OS/161 runs) and the associated toolchain (compiler,
+debugger, binary utilities) are set up in the CS350 course
+account and can be used from there.
+To run OS/161 on your home machine, you will need to download
+and build your own copies of the simulator and the toolchain
+before you can work with OS/161.
+</p>
+
+<a name="faq"></a>
+<h3>Step 0: Please be aware of the FAQ</h3>
+<p>
+If things go wrong please have a look at the FAQ
+for answers and solutions.
+In particular most systems require the installation
+of additional software and/or libraries.
+This will vary by Linux distro and/or Mac OS X version
+and we'll try to collect information in the FAQ.
+<br>
+<a href="https://www.student.cs.uwaterloo.ca/~cs350/common/os161-faq.html">
+OS161 and Toolchain FAQ
+</a>
+
+
+<a name="download"></a>
+</p><h3>Step 1: Download</h3>
+<p>
+Start by downloading the necessary files, which are described
+in the following table:
+<table cols="4" width="100%" border="border" cellpadding="2">
+<tbody><tr>
+<td>What</td>
+<td>Download Link</td>
+<td>Approx. Download Size (MB)</td>
+<td>Approx. Unpacked Size (MB)</td>
+</tr>
+
+<tr>
+<td>Binutils for MIPS</td>
+<td><a href="http://www.student.cs.uwaterloo.ca/~cs350/os161_repository/os161-binutils.tar.gz">os161-binutils.tar.gz</a></td>
+<td>18</td>
+<td>113</td>
+</tr>
+
+<tr>
+<td>GCC MIPS Cross-Compiler</td>
+<td><a href="http://www.student.cs.uwaterloo.ca/~cs350/os161_repository/os161-gcc.tar.gz">os161-gcc.tar.gz</a></td>
+<td>23</td>
+<td>95</td>
+</tr>
+
+<tr>
+<td>GDB for Use with OS/161</td>
+<td><a href="http://www.student.cs.uwaterloo.ca/~cs350/os161_repository/os161-gdb.tar.gz">os161-gdb.tar.gz</a></td>
+<td>20</td>
+<td>116</td>
+</tr>
+
+<tr>
+<td>bmake for use with OS/161</td>
+<td><a href="http://www.student.cs.uwaterloo.ca/~cs350/os161_repository/os161-bmake.tar.gz">os161-bmake.tar.gz</a></td>
+<td>1</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>mk for use with OS/161</td>
+<td><a href="http://www.student.cs.uwaterloo.ca/~cs350/os161_repository/os161-mk.tar.gz">os161-mk.tar.gz</a></td>
+<td>1</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>sys/161</td>
+<td><a href="http://www.student.cs.uwaterloo.ca/~cs350/os161_repository/sys161.tar.gz">sys161.tar.gz</a></td>
+<td>1</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>OS/161</td>
+<td><a href="http://www.student.cs.uwaterloo.ca/~cs350/os161_repository/os161.tar.gz">os161.tar.gz</a></td>
+<td>1</td>
+<td>3</td>
+</tr>
+
+</tbody></table>
+
+<br>
+<br>
+<font color="red">
+NOTE: It may take some time to download some of these
+files and if you try to proceed (e.g., run tar before
+all of the file has been downloaded it will fail).
+Please check that your browser has finished downloading
+the file you are going to work with before working with it.
+</font>
+
+</p><hr>
+<h3>Step 2: Build and Install the Binary Utilities (Binutils)</h3>
+
+Unpack the binutils archive:
+<br>
+<kbd>
+tar -xzf os161-binutils.tar.gz
+</kbd>
+<br>
+Move into the newly-created directory:
+<br>
+<kbd>
+cd binutils-2.17+os161-2.0.1
+</kbd>
+<br>
+Configure binutils:
+<br>
+<kbd>
+./configure --nfp --disable-werror --target=mips-harvard-os161 --prefix=$HOME/sys161/tools
+</kbd>
+<br>
+Make binutils:
+<br>
+<kbd>
+make
+</kbd>
+<br>
+If the <tt>make</tt> command fails because of a problem related
+to <tt>makeinfo</tt>, try running the following command:
+<br>
+<kbd>
+find . -name '*.info' | xargs touch
+</kbd>
+<br>
+and then re-run <tt>make</tt>.
+<br>
+Finally, once <tt>make</tt> has succeeded, install the binutils into
+their final location:
+<br>
+<kbd>
+make install
+</kbd>
+<br>
+This will create the directory <tt>$HOME/sys161/tools/</tt>
+and populate it.
+<p></p>
+
+<h3>Step 3: Adjust Your Shell's Command Path</h3>
+
+First, make the directory in which your shell will
+eventually find the toolchain binaries:
+<br>
+<kbd>
+mkdir $HOME/sys161/bin
+</kbd>
+<br>
+Next, add two directories (<tt>$HOME/sys161/bin</tt> and
+<tt>$HOME/sys161/tools/bin</tt>) to your shell's search path.
+Users of <tt>bash</tt> should do something
+like this in your <tt>.bash_profile</tt> and <tt>.bashrc</tt> files
+in your home directory: 
+<br>
+<kbd>
+export PATH=$HOME/sys161/bin:$HOME/sys161/tools/bin:$PATH
+</kbd>
+<br>
+while users of <tt>csh</tt>  or <tt>tcsh</tt> would typically use <tt>.profile</tt>
+and <tt>.cshrc</tt> (in your home directory):
+<br>
+<kbd>
+setenv PATH $HOME/sys161/bin:$HOME/sys161/tools/bin:${PATH}
+</kbd>
+<br>
+
+<br>
+<font color="red">
+Note that setting these variables in <tt>.bashrc</tt> and <tt>.cshrc</tt> only
+works in the shell or window in which you issue the above commands in, and will
+most likely NOT work for logging in through SSH. You will need to ensure that
+the proper path is set and used for future logins and for other newly created
+shells.
+
+<br>
+<a href="https://www.student.cs.uwaterloo.ca/~cs350/common/Shell-Setup.html">
+A bit more information about setting up your shell.
+</a>
+</font>
+
+<p>
+Note that you may need to log out and log back in again
+so that this <tt>PATH</tt> change will take effect.
+You can check the current setting of the <tt>PATH</tt> environment
+variable using the command
+<br><br>
+<kbd>
+printenv PATH
+</kbd>
+</p>
+
+
+<h3>Step 4: Install the GCC MIPS Cross-Compiler</h3>
+
+Unpack the gcc archive:
+<br>
+<kbd>
+tar -xzf os161-gcc.tar.gz
+</kbd>
+<br>
+Move into the newly-created directory:
+<br>
+<kbd>
+cd gcc-4.1.2+os161-2.0
+</kbd>
+<br>
+Configure gcc
+<br>
+<kbd>
+./configure -nfp --disable-shared --disable-threads --disable-libmudflap --disable-libssp --target=mips-harvard-os161 --prefix=$HOME/sys161/tools
+</kbd>
+<br>
+Make it and install it:
+<br>
+<kbd>
+make
+</kbd>
+<br>
+<kbd>
+make install
+</kbd>
+<br>
+
+<h3>Step 5: Install GDB</h3>
+
+Unpack the gdb archive:
+<br>
+<kbd>
+tar -xzf os161-gdb.tar.gz
+</kbd>
+<br>
+Move into the newly-created directory:
+<br>
+<kbd>
+cd gdb-6.6+os161-2.0
+</kbd>
+<br>
+Configure gdb
+<br>
+<kbd>
+./configure --target=mips-harvard-os161 --prefix=$HOME/sys161/tools --disable-werror
+</kbd>
+<br>
+Make it and install it:
+<br>
+<kbd>
+make
+</kbd><br>
+<kbd>
+make install
+</kbd>
+<br>
+<p>
+	<b>Note:</b>
+	Compiling this version of GDB may fail when newer versions of the texinfo
+	package are installed (version 5.2-1, for instance). If you encounter an issue
+	with this step, you can either include <tt>MAKEINFO=missing</tt> when you run
+	the <tt>make</tt> command, or you can install an older version of texinfo (such
+	as 4.13-4) and try again. You may also need to install the libncurses-devel
+	library.
+</p>
+
+<h3>Step 6: Install bmake</h3>
+
+Unpack the bmake archive:
+<br>
+<kbd>
+tar -xzf os161-bmake.tar.gz
+</kbd>
+<br>
+Move into the newly-created directory:
+<br>
+<kbd>
+cd bmake
+</kbd>
+<br>
+Unpack mk within the bmake directory:
+<br>
+<kbd>
+tar -xzf ../os161-mk.tar.gz
+</kbd>
+<br>
+Run the bmake bootstrap script
+<br>
+<kbd>
+./boot-strap --prefix=$HOME/sys161/tools
+</kbd>
+<br>
+As the <tt>boot-strap</tt> script finishes, it should print a list of
+commands that you can run to install bmake
+under <tt>$HOME/sys161/tools</tt>.
+The list should look something like this:
+<br>
+<kbd>
+mkdir -p /home/kmsalem/sys161/tools/bin<br>
+cp /home/kmsalem/bmake/Linux/bmake /home/kmsalem/sys161/tools/bin/bmake-20101215<br>
+rm -f /home/kmsalem/sys161/tools/bin/bmake<br>
+ln -s bmake-20101215 /home/kmsalem/sys161/tools/bin/bmake<br>
+mkdir -p /home/kmsalem/sys161/tools/share/man/cat1<br>
+cp /home/kmsalem/bmake/bmake.cat1 /home/kmsalem/sys161/tools/share/man/cat1/bmake.1<br>
+sh /home/kmsalem/bmake/mk/install-mk /home/kmsalem/sys161/tools/share/mk<br>
+</kbd>
+Of course, your output will refer to your directories, not
+to <tt>/home/kmsalem</tt>.
+<p>
+Run the commands printed by <tt>boot-strap</tt> in the order in which
+they are listed.
+<br>
+
+</p><h3>Step 7: Set Up Links for Toolchain Binaries</h3>
+
+<kbd>
+mkdir $HOME/sys161/bin
+</kbd><br>
+<kbd>
+cd $HOME/sys161/tools/bin
+</kbd><br>
+<kbd>
+sh -c 'for i in mips-*; do ln -s $HOME/sys161/tools/bin/$i $HOME/sys161/bin/cs350-`echo $i | cut -d- -f4-`; done'
+</kbd><br>
+<kbd>
+ln -s $HOME/sys161/tools/bin/bmake $HOME/sys161/bin/bmake
+</kbd>
+<p>
+<b>Cygwin Users:</b> Shells under Cygwin sometimes have difficulty handling shell
+commands in a string input as given above. If you find yourself unable to get the second 
+command to work, copy and paste the entire second line into a shell script in <tt>$HOME/sys161/tools/bin</tt>
+and run it from there. You will likely need to change the permissions on the shell script to allow it to run, as follows:
+</p>
+<kbd>
+chmod 755 myscript.sh
+</kbd>
+<p>
+When you are finished with these steps, a listing of the
+directory <tt>$HOME/sys161/bin</tt> should look similar to this:
+</p><pre>bmake@            cs350-gcc@        cs350-ld@       cs350-run@
+cs350-addr2line@  cs350-gcc-4.1.2@  cs350-nm@       cs350-size@
+cs350-ar@         cs350-gccbug@     cs350-objcopy@  cs350-strings@
+cs350-as@         cs350-gcov@       cs350-objdump@  cs350-strip@
+cs350-c++filt@    cs350-gdb@        cs350-ranlib@
+cs350-cpp@        cs350-gdbtui@     cs350-readelf@
+</pre>
+
+<h3>Step 8: Build and Install the sys161 Simulator</h3>
+
+Unpack the sys161 archive:
+<br>
+<kbd>
+tar -xzf sys161.tar.gz
+</kbd>
+<br>
+Move into the newly-created directory:
+<br>
+<kbd>
+cd sys161-1.99.06
+</kbd>
+<br>
+Next, configure sys161:
+<br>
+<kbd>
+./configure --prefix=$HOME/sys161 mipseb
+</kbd>
+<br>
+Build sys161 and install it:
+<br>
+<kbd>
+make<br>
+make install
+</kbd>
+<br>
+Finally, set up a link to a sample sys161 configuration file<br>
+<kbd>
+cd $HOME/sys161
+</kbd><br>
+<kbd>
+ln -s share/examples/sys161/sys161.conf.sample sys161.conf
+</kbd>
+
+<h3>Step 9: Install OS/161</h3>
+
+First, create a directory to hold the OS/161 source code, your
+compiled OS/161 kernels, and related test programs.
+<br>
+<kbd>
+cd $HOME<br>
+mkdir cs350-os161
+</kbd>
+<br>
+Next, move the OS/161 archive into your new directory and 
+unpack it:
+<br>
+<kbd>
+mv os161.tar.gz cs350-os161<br>
+cd cs350-os161<br>
+tar -xzf os161.tar.gz
+</kbd>
+<br>
+This will create a directory called <tt>os161-1.99</tt>
+(under <tt>cs350-os161</tt>) containing the OS/161 source
+code.  
+You should now be able build, install, and run
+an OS/161 kernel and related application and test programs
+by following steps similar to 
+<a href="https://www.student.cs.uwaterloo.ca/~cs350/common/Install161.html">those used to install OS/161
+in the student.cs computing environment</a>, starting
+with the step "Configure and Build OS/161".
+
+<h3>Step 10: Cleanup (optional)</h3>
+
+Once you have completed the above steps, your OS/161-related
+development tools (binutils, gcc, gdb) and the sys/161 simulator
+will be installed under <tt>$HOME/sys161</tt>, and OS/161 itself
+will be installed under <tt>$HOME/cs350-os161</tt>. 
+The archive files (filenames ending in <tt>.tar.gz</tt>)
+that you downloaded in <a href="https://www.student.cs.uwaterloo.ca/~cs350/common/Install161NonCS.html#download">Step 1</a>
+are no longer needed, so feel free to remove them if you want
+to save space or reduce clutter.
+You can also remove the directories in which you unpacked
+the archives and built the software:
+<tt>binutils-2.17+os161-2.0.1</tt>,
+<tt>gcc-4.1.2+os161-2.0</tt>,
+<tt>gdb-6.6+os161-2.0</tt>,
+<tt>bmake</tt> and 
+<tt>sys161-1.99.06</tt>.
+However, do not delete the OS/161 source code
+(under <tt>$HOME/cs350-os161/os161-1.99</tt>), since you will be making
+use of it for your assignments.
+<p> 
+Optionally, you may also remove the directory <tt>$HOME/sys161/tools/bin</tt> from your shell command path, as it is needed only during the process of building the toolchain.  However, you be sure to leave
+<tt>$HOME/sys161/bin</tt> in your path, as that is the home of the toolchain binaries that you will be using as you work with OS/161.
+</p>
+
+
+</body></html>
