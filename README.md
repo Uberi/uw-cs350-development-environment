@@ -38,13 +38,24 @@ Download and extract the [CS350 OS/161 archive](http://www.student.cs.uwaterloo.
 
 Now, start an interactive shell inside the image by running the following in the same folder the OS/161 archive was extracted to (this folder should now contain a folder named `os161-1.99`):
 
-    sudo docker run --volume "$(pwd):/cs350-os161" --interactive --tty uberi/cs350:latest bash
+```bash
+sudo docker run --volume "$(pwd):/root/cs350-os161" --interactive --tty uberi/cs350:latest bash
+```
 
 If this is the first run, and you haven't built the image yourself, this might take a little while to start while Docker downloads the image from Docker Hub.
 
 Now, you can edit the source code on the host machine, and compile/test/debug inside the Docker image.
 
 If `bmake install` fails with `mkdir: cannot create directory '/root/os161/root': No such file or directory`, just create the directory: `mkdir --parents /root/os161`.
+
+If `sys161` fails with `sys161: Cannot open config file sys161.conf`, just copy over the example config: `cp /root/sys161/share/examples/sys161/sys161.conf.sample /root/cs350-os161/root/sys161.conf`.
+
+To run SYS/161:
+
+```bash
+cd /root/cs350/root
+sys131 kernel
+```
 
 Building
 --------
@@ -55,7 +66,9 @@ Download all of the [archives listed in the Step 1 table](https://www.student.cs
 
 To build the image, run the following in the repository root:
 
-    sudo docker build -t uberi/cs350:latest .
+```bash
+sudo docker build -t uberi/cs350:latest .
+```
 
 There will be a lot of warnings, but give it at least a few minutes and it'll build.
 
