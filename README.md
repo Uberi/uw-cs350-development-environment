@@ -62,3 +62,10 @@ There will be a lot of warnings, but give it at least a few minutes and it'll bu
 To upload the image to Docker Hub, I use the following command:
 
     sudo docker push uberi/cs350:latest
+
+License
+-------
+
+The files that are part of this project are made available under the 3-Clause BSD license - see `LICENSE.txt` for details. That means you are free to copy/modify/distribute them with very few restrictions.
+
+This project does not include the additional files that are separately downloaded from the [course websites](https://www.student.cs.uwaterloo.ca/~cs350/common/WorkingWith161.html), as they do not seem to include a compatible license as of this writing.
