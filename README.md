@@ -10,7 +10,7 @@ Quickstart on Debian/Ubuntu:
 ```bash
 sudo apt-get install --yes docker.io
 wget http://www.student.cs.uwaterloo.ca/~cs350/os161_repository/os161.tar.gz -O os161.tar.gz && tar -xzf os161.tar.gz
-sudo docker run --volume "$(pwd):/cs350-os161" --interactive --tty uberi/cs350:latest bash
+sudo docker run --volume "$(pwd):/root/cs350-os161" --interactive --tty uberi/cs350:latest bash
 # you are now in an interactive shell in the development environment
 ```
 
@@ -45,8 +45,6 @@ sudo docker run --volume "$(pwd):/root/cs350-os161" --interactive --tty uberi/cs
 If this is the first run, and you haven't built the image yourself, this might take a little while to start while Docker downloads the image from Docker Hub.
 
 Now, you can edit the source code on the host machine, and compile/test/debug inside the Docker image.
-
-If `bmake install` fails with `mkdir: cannot create directory '/root/os161/root': No such file or directory`, just create the directory: `mkdir --parents /root/os161`.
 
 If `sys161` fails with `sys161: Cannot open config file sys161.conf`, just copy over the example config: `cp /root/sys161/share/examples/sys161/sys161.conf.sample /root/cs350-os161/root/sys161.conf`.
 
