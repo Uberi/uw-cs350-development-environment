@@ -48,6 +48,8 @@ Now, you can edit the source code on the host machine, and compile/test/debug in
 
 If `sys161` fails with `sys161: Cannot open config file sys161.conf`, just copy over the example config: `cp /root/sys161/share/examples/sys161/sys161.conf.sample /root/cs350-os161/root/sys161.conf`.
 
+If the folder `/root/cs350-os161/root` is missing, simply create it (the OS/161 build scripts seem to have a bug where the folder isn't properly created): `mkdir --parents /root/cs350-os161/root`.
+
 To run SYS/161:
 
 ```bash
