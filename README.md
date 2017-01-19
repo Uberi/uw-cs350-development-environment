@@ -1,17 +1,18 @@
 CS350 OS/161 Setup
 ==================
 
-[Docker](https://www.docker.com/) container for the [OS/161](http://os161.eecs.harvard.edu/) setup used in [CS350 at the University of Waterloo](https://www.student.cs.uwaterloo.ca/~cs350/). This setup is current as of the Spring 2016 term.
+[Docker](https://www.docker.com/) container for the [OS/161](http://os161.eecs.harvard.edu/) setup used in [CS350 at the University of Waterloo](https://www.student.cs.uwaterloo.ca/~cs350/). This setup is current as of the Fall 2016 term.
 
 Set up a fully functional CS350 development environment with one command!
 
 Quickstart on Debian/Ubuntu:
 
+Step 1, put `additional_processing.sh` and `install.sh` in the same folder
+
+Step 2
 ```bash
-sudo apt-get install --yes docker.io
-wget http://www.student.cs.uwaterloo.ca/~cs350/os161_repository/os161.tar.gz -O os161.tar.gz && tar -xzf os161.tar.gz
-sudo docker run --volume "$(pwd):/root/cs350-os161" --interactive --tty uberi/cs350:latest bash
-# you are now in an interactive shell in the development environment
+bash install.sh
+# enter password as prompted
 ```
 
 Supports most x86/x86-64 Linux/OS X systems.
@@ -53,8 +54,8 @@ If the folder `/root/cs350-os161/root` is missing, simply create it (the OS/161 
 To run SYS/161:
 
 ```bash
-cd /root/cs350/root
-sys131 kernel
+cd /root/cs350-os161/root
+sys161 kernel
 ```
 
 Building
