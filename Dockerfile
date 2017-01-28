@@ -62,7 +62,8 @@ RUN make install
 RUN ln -s /root/sys161/share/examples/sys161/sys161.conf.sample /root/sys161/sys161.conf
 
 # step 9: install os161
-VOLUME /root/cs350-os161 # extracting the archive should be done on the host side
+# extracting the archive should be done on the host side
+VOLUME /root/cs350-os161
 
 # make sure to start commands in the os161 folder
 WORKDIR /root/cs350-os161
