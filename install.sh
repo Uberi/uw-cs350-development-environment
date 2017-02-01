@@ -1,16 +1,16 @@
 mkdir cs350-work
 cd cs350-work
 
-if [ ! `which docker ` ]; then
-    sudo apt-get install --yes docker.io
-    newgrp docker
-fi
-wget http://www.student.cs.uwaterloo.ca/~cs350/os161_repository/os161.tar.gz -O os161.tar.gz && tar -xzf os161.tar.gz
-sudo docker run --volume "$(pwd):/root/cs350-os161" --interactive uberi/cs350:latest bash < ../additional_processing.sh
+# install Docker if not already installed
+sudo apt-get install --yes -qq docker.io
 
-sudo docker exec -t -i `sudo docker ps -ql | xargs -I{} sudo docker start {}` bash
+# get OS161
+wget https://www.student.cs.uwaterloo.ca/~cs350/os161_repository/os161.tar.gz -O os161.tar.gz
+tar -xzf os161.tar.gz
 
-# now in the new shell type
-# cd /root/cs350-os161/root && sys161 kernel
+# get useful processing scripts
+wget https://github.com/Uberi/uw-cs350-development-environment/blob/master/start-interactive-cs350-shell.sh -O start-interactive-cs350-shell.sh
+wget https://github.com/Uberi/uw-cs350-development-environment/blob/master/build-and-run-kernel.sh -O build-and-run-kernel.sh
 
-
+# get the prebuilt Docker image
+sudo docker pull uberi/cs350:latest
