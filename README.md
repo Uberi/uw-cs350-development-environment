@@ -37,6 +37,8 @@ Whenever you need to test/run/debug, run `bash build-and-run-kernel.sh` inside t
 Building
 --------
 
+This section contains instructions for building the Docker image from scratch. You probably don't need to do this unless you're making your own image based on this one. If you just want to do your assignments in the development environment, refer to the "Usage" section above.
+
 First, make sure you have Docker - refer to the [official Docker installation instructions](https://docs.docker.com/engine/installation/) for details.
 
 Download all of the [archives listed in the Step 1 table](https://www.student.cs.uwaterloo.ca/~cs350/common/Install161NonCS.html), and place them in the same directory as this README. The `os161.tar.gz` archive is technically not necessary for building the image, but you will need it to actually use the environment.
