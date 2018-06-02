@@ -13,7 +13,12 @@ if ! grep docker /proc/1/cgroup -qa; then
   exit 1
 fi
 
-ASSIGNMENT=ASST0
+if [ $# -eq 0 ]; then
+  ASSIGNMENT=ASST0
+  echo 'using default '$ASSIGNMENT
+else
+  ASSIGNMENT=ASST$1
+fi
 
 # copy in the SYS/161 default configuration
 mkdir --parents /root/cs350-os161/root
